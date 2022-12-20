@@ -8,7 +8,7 @@
 
 # How to recreate processed data and plot figures from scratch
 1. Download the data from AIDA repository and paste them into folder "data" at the same level as this directory. This directory contains both raw and processed data as well as an example analysis, see below "Data structure" for detailed explanation of the content. If you want to recreate the coregistered files, follow instructions in the [repository related to our manuscript: Coregistered H&E- and VEGF-stained histology slides with diffusion tensor imaging data at 200 μm resolution in meningioma tumors](https://github.com/jan-brabec/microimaging_histology_DIB).
-2. Install QuPath, and for each sample create an empty new project in the directory data/sample_number/cell_density/QuPath. This has to be done manually.
+2. Install [QuPath](https://qupath.github.io), and for each sample create an empty new project in the directory data/sample_number/cell_density/QuPath. This has to be done manually.
 4. Run script save_qupath in the folder Step_a_Analyze_CD. This will save QuPath readable version of the histology in the folder data/sample_number/cell_density/QuPath.
 5. Run QuPath cell detection algrithm in the application and export all information about the detection in the same directory as QuPath.
 6. Run script Anisotropy in the folder Step_b_Analyze_IA.
