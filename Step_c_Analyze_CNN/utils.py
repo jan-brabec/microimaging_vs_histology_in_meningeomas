@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 ################################################################
-def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_size = 0, random_state = 42, gdrive_path = "../..", get_datasets = True, batch_size = 32, get_indices = False, get_full_data = False, get_FA2D = False):
+def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_size = 0, random_state = 42, get_datasets = True, batch_size = 32, get_indices = False, get_full_data = False, get_FA2D = False):
   """
   Loads the data and splits them to train, test and validation parts
 
@@ -30,11 +30,11 @@ def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_si
   full_data = None
   # iterate through samples
   for sample in samples_to_train:
-    tdx = np.load(f"{gdrive_path}/data/{sample}/resized_xdata.npy")
+    tdx = np.load(f"../../data/{sample}/coreg_fine/ver1/resized_xdata.npy")
     if get_FA2D:
-      tdy = np.load(f"{gdrive_path}/data/{sample}/resized_ydataFA2D.npy")
+      tdy = np.load(f"../../data/{sample}/coreg_fine/ver1/resized_ydataFA2D.npy")
     else:
-      tdy = np.load(f"{gdrive_path}/data/{sample}/resized_ydata.npy")
+      tdy = np.load(f"../../data/{sample}/coreg_fine/ver1/resized_ydataMD.npy")
     # split dataset
     ttrainx, ttraincx, ttrainy, ttraincy, ttrainind, ttraincind = train_test_split(tdx, tdy[:,0], np.arange(tdx.shape[0]).reshape(-1,1), train_size = train_size, test_size = train_complement_size, random_state = random_state, shuffle = True)
     if test_size > 0:
