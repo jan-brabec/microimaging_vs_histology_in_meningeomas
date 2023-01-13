@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import h5py
 from PIL import Image
+import os
 
 
 all_items = list(range(1,17))
@@ -13,11 +14,11 @@ patchsize = 360
 for i in all_items:
     i_dirname = f"../../data/{i}/coreg_fine/ver1/"
     o_dirname = f"../../data/{i}/CNN/ver1/"
+    os.mkdir(o_dirname)
     
     print(f"Processing sample {i}")
     fHE = h5py.File(i_dirname + "HE.mat", 'r')
     fMR = h5py.File(i_dirname + "MR.mat", 'r')
-    fROI= h5py.File(i_dirname + "ROIs.mat", 'r')
     print(fHE.keys())
     # get HE data
     he_origin = np.array(fHE['HE'])
@@ -30,7 +31,7 @@ for i in all_items:
     MR_roi = np.array(fMR['MR']['ROI'])
     print(he.shape, he_mask.shape, dhe_mask.shape, MR_MD.shape, MR_FAIP.shape, MR_roi.shape)
     if MR_MD.shape != MR_FAIP.shape:
-      print("Different shapes of MR and FA2D! Skipping...")
+      print("Different shapes of MR and FAIP! Skipping...")
       continue
     patchsx = int(he.shape[0]/MR_MD.shape[0])
     patchsy = int(he.shape[1]/MR_MD.shape[1])
