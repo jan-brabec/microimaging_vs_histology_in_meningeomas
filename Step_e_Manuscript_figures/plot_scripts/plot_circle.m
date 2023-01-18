@@ -20,7 +20,6 @@ else
     c_map = tmp;
 end
 
-
 c_map = hsv;
 c_map = c_map(1:2:end,:);
 c_map = circshift(c_map,64);
@@ -29,3 +28,4 @@ colormap(c_map);
 shading flat;
 axis equal;
 axis image off
+

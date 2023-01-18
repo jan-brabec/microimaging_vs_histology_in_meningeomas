@@ -1,11 +1,11 @@
 clear; clf;
 
 axs = 1;
-load(fullfile('..','..','local_data','summary.mat'))
+load(fullfile('..','summary.mat'))
 addpath('../M_functions')
 
+% idxs = [9 5 6 15 13 4 16 1 8 11 3 10 12 2 14 7];
 idxs = 1:16;
-% idxs = 5;
 
 ha = tight_subplot(numel(idxs),2,[.01,.01],[.01,.01],[.01,.01]);
 for idx = 1:numel(idxs)

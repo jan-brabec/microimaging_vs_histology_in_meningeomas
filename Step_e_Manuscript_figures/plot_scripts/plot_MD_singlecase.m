@@ -1,5 +1,5 @@
 clear; clf;
-load(fullfile('..','..','local_data','summary.mat'))
+load(fullfile('..','summary.mat'))
 addpath(genpath('../M_functions'))
 
 sample = 5;
@@ -17,23 +17,23 @@ end
 
 
 
-CD = process_map(sCDA_raw{sample},sROI_ver2{sample},CD_lims,1);
-MD = process_map(sMR{sample}.MD,sROI_ver2{sample},MD_lims,0);
+CD = process_map(sCD{sample},sROI{sample},CD_lims,1);
+MD = process_map(sMR{sample}.MD,sROI{sample},MD_lims,0);
 
-MD_pred = predict_map(CD,MD,sROI_ver2{sample},sample,11);
-MD_pred = process_map(MD_pred,sROI_ver2{sample},MD_lims,0);
+MD_pred = predict_map(CD,MD,sROI{sample},sample,11);
+MD_pred = process_map(MD_pred,sROI{sample},MD_lims,0);
 
 
-[dif,c_map] = make_dif_map(MD,MD_pred,sROI_ver2{sample},dif_lims);
+[dif,c_map] = make_dif_map(MD,MD_pred,sROI{sample},dif_lims);
 
 ax1 = subplot(1,2,1);
 % scatter(CD(sROI{sample} > 0),MD(sROI{sample} > 0),30,'.');
 
-dscatter(CD(sROI_ver2{sample} > 0),MD(sROI_ver2{sample} > 0),'msize',30,'SMOOTHING',30,'BINS',[200,200],'PLOTTYPE','scatter')
+dscatter(CD(sROI{sample} > 0),MD(sROI{sample} > 0),'msize',30,'SMOOTHING',30,'BINS',[200,200],'PLOTTYPE','scatter')
 xlim([0 CD_lims])
 ylim([0 MD_lims])
 hold on
-plot(CD(sROI_ver2{sample} > 0),MD_pred(sROI_ver2{sample} > 0),'.','Markersize',10);
+plot(CD(sROI{sample} > 0),MD_pred(sROI{sample} > 0),'.','Markersize',10);
 ylim([0 MD_lims])
 xlim([0 1])
 
@@ -80,4 +80,4 @@ set(ax,'tickdir','out');
 set(gcf,'color','w');
 drawnow;
 
-R2 = calc_R2(MD,MD_pred,sROI_ver2{sample})
+R2 = calc_R2(MD,MD_pred,sROI{sample})

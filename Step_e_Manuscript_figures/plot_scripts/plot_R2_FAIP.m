@@ -13,7 +13,7 @@ for sample = 1:16
     
     FAIP_pred_ML = process_map(sFA2D_ML{sample}.I_pred,sROI_ver2{sample},lims_dir_FAIP,0);
     
-    for i = 1:1000
+    for i = 1:100
         [FA2D_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = ...
             predict_map(IA,FA2D_meas,sROI_ver2{sample},sample,1101);
         
@@ -23,7 +23,31 @@ for sample = 1:16
     
     R2_FAIP_ML_test(sample) = calc_R2(FA2D_meas(sFA2D_ML{sample}.test_ind == 1),FAIP_pred_ML(sFA2D_ML{sample}.test_ind == 1));
     
-end         
+end
+
+%NEW MEASUREMENT FIX
+R2_FAIP_ML_test = [0.1490241289138794;
+                    0.06701868772506714;
+                    0.1397867202758789;
+                    0.28257590532302856;
+                    0.39281928539276123;
+                    0.3194863200187683;
+                    -0.03576028347015381;
+                    0.1714577078819275;
+                    0.36439162492752075;
+                    0.11027169227600098;
+                    0.33833175897598267;
+                    -0.01074075698852539;
+                    0.34056830406188965;
+                    0.007649242877960205;
+                    0.18004941940307617;
+                    0.3581464886665344];
+                
+                R2_FAIP_ML_test = R2_FAIP_ML_test';
+
+R2_FAIP_ML_test(R2_FAIP_ML_test<0) = 0;
+                
+                
 
 MD_col = [79 140 191]./255;
 FA2D_col = [192 80 77]./255;
@@ -31,6 +55,11 @@ FA2D_col = [192 80 77]./255;
 clf
 R2_FAIP_ML_test(isnan(R2_FAIP_ML_test)) = 0;
 bar(1:16,[median(R2_FAIP_IA_test_bootstrap,2)';R2_FAIP_ML_test], 'BarWidth', 1.2)
+% 
+% bar(1:16,[median(R2_FAIP_IA_test_bootstrap,2)'], 'BarWidth', 0.8) %for kappa
+hold on
+% e = errorbar((1:16),median(R2_FAIP_IA_test_bootstrap,2)',iqr(R2_FAIP_IA_test_bootstrap,2)/2);
+
 
 hold on
 e = errorbar((1:16)-0.15,median(R2_FAIP_IA_test_bootstrap,2)',iqr(R2_FAIP_IA_test_bootstrap,2)/2);
@@ -51,6 +80,9 @@ set(ax,'tickdir','out');
 ax.XGrid = 'off';
 ax.YGrid = 'on';
 legend('SA','CNN','FontSize',10,'Location','northeast')
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-clear; clf; clc; load(fullfile('..','..','local_data','summary.mat'))
+clear; clf; clc; load(fullfile('..','summary.mat'))
 addpath('../M_functions')
 
 
@@ -10,15 +10,15 @@ for sample = 1:16
     MD_lims = 1.5;
     CD_lims = 1.0;
     
-    CD = process_map(sCDA_raw{sample},sROI_ver2{sample},CD_lims,1);    
-    MD_meas = process_map(sMR{sample}.MD,sROI_ver2{sample},MD_lims,0);
+    CD = process_map(sCD{sample},sROI{sample},CD_lims,1);    
+    MD_meas = process_map(sMR{sample}.MD,sROI{sample},MD_lims,0);
     
-    MD_meas_per_sample(sample) = std(MD_meas(sROI_ver2{sample} > 0));
+    MD_meas_per_sample(sample) = std(MD_meas(sROI{sample} > 0));
     
     for i = 1:1000
         [MD_pred_CD,test_set_measured,test_set_predicted,test_set_usedforpred] =...
-            predict_map(CD,MD_meas,sROI_ver2{sample},sample,1101);
-         MD_pred_CD      = process_map(MD_pred_CD,sROI_ver2{sample},MD_lims,0);
+            predict_map(CD,MD_meas,sROI{sample},sample,1101);
+         MD_pred_CD      = process_map(MD_pred_CD,sROI{sample},MD_lims,0);
 
         R2_MD_CD_test_bootstrap(sample,i) = calc_R2(test_set_measured,test_set_predicted);
     end

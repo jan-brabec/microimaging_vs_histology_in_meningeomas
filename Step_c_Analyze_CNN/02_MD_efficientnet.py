@@ -63,7 +63,8 @@ for sample in samples:
 
   model.compile(optimizer=optimizer,
     loss = 'mean_squared_error',
-    metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
+    metrics = [tfa.metrics.r_square.RSquare(dtype=tf.float32)])
+    #metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
 
   # model.summary()
   print("- Model prepared")

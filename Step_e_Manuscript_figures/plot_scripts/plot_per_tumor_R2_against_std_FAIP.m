@@ -1,4 +1,4 @@
-clear; clf; clc; load(fullfile('..','..','local_data','summary.mat'))
+clear; clf; clc; load(fullfile('..','summary.mat'))
 addpath('../M_functions')
 
 
@@ -9,16 +9,16 @@ for sample = 1:16
     dif_lims = 0.5;
     [lims_dir_FA2D, lims_dir_IA] = get_dir_lims(sample,0.6);
     
-    IA   = process_map(sHd{sample}.dIA,sROI_ver2{sample},lims_dir_IA,1);
-    FA2D_meas = process_map(sMR{sample}.FA2D,sROI_ver2{sample},lims_dir_FA2D,0);
+    IA   = process_map(sHd{sample}.dIA,sROI{sample},lims_dir_IA,1);
+    FA2D_meas = process_map(sMR{sample}.FA2D,sROI{sample},lims_dir_FA2D,0);
     
-    FA2D_meas_per_sample(sample) = std(FA2D_meas(sROI_ver2{sample} > 0));
+    FA2D_meas_per_sample(sample) = std(FA2D_meas(sROI{sample} > 0));
 
     
     for i = 1:1000
         [FA2D_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = ...
-            predict_map(IA,FA2D_meas,sROI_ver2{sample},sample,1101);
-        FA2D_pred = process_map(FA2D_pred,sROI_ver2{sample},lims_dir_FA2D,0);
+            predict_map(IA,FA2D_meas,sROI{sample},sample,1101);
+        FA2D_pred = process_map(FA2D_pred,sROI{sample},lims_dir_FA2D,0);
         
         R2_FA2D_IA_test_bootstrap(sample,i) = calc_R2(test_set_measured,test_set_predicted);
     end

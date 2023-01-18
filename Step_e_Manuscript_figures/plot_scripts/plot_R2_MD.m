@@ -34,6 +34,11 @@ R2_MD_ML_test(isnan(R2_MD_ML_test)) = 0;
 bar(1:16,[median(R2_MD_CD_test_bootstrap,2)';R2_MD_ML_test], 'BarWidth', 1.2)
 hold on
 e = errorbar((1:16)-0.15,median(R2_MD_CD_test_bootstrap,2)',iqr(R2_MD_CD_test_bootstrap,2)/2);
+% 
+% bar(1:16,[median(R2_MD_CD_test_bootstrap,2)'], 'BarWidth', 0.8)
+% hold on
+% e = errorbar((1:16),median(R2_MD_CD_test_bootstrap,2)',iqr(R2_MD_CD_test_bootstrap,2)/2);
+
 
 e.LineStyle = 'none';
 e.LineWidth = 1.5;

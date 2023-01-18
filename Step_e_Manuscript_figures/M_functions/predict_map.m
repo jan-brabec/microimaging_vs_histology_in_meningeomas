@@ -97,3 +97,87 @@ end
 
 
 end
+
+
+% 
+% % ALL OTHERS PAUSED FOR NOW JUST TO BE SURE
+% 
+
+% 
+% if what == 13 %constrained quadratic for all samples
+%     t = X_from(ROI > 0);
+%     y = X_measured(ROI > 0);
+%     
+%     % Aeq * x = beq type of constrain,  here to set when CD == 0 then MD = max(MD)
+%     Aeq = [   0    0    1];
+%     beq = max(y);
+%     
+%     % A * x =< b type of constrain, here derivative is zero
+%     t_points = 100;
+%     t_eval = linspace(0,0.8,t_points)';
+%     A = [2*t_eval t_eval zeros(t_points,1)]; %Derivative of x^2 + x + c is 2x + c + 0 = b
+%     b = zeros(t_points,1);
+%     
+%     C = [t.^2 t ones(size(t))]; %3rd degree polynomial
+%     x_lsqlin1 = lsqlin(C,y,A,b,Aeq,beq);
+%     
+%     X_pred = reshape([X_from(:).^2 X_from(:) ones(size(X_from(:)))] * x_lsqlin1, size(X_measured));
+% end
+% 
+% 
+% if what == 99 %MD from CD
+%     
+%     if sample ~= 3
+%         
+%         mdl = fitlm();
+%         X_pred = reshape([ones(size(X_from(:))) X_from(:)] * mdl.Coefficients.Estimate, size(X_from));
+%         
+%     elseif sample == 3
+%         t = X_from(ROI > 0);
+%         y = X_measured(ROI > 0);
+%         
+%         % Aeq * x = beq type of constrain,  here to set when CD == 0 then MD = max(MD)
+%         Aeq = [   0    0    1];
+%         beq = max(y);
+%         
+%         % A * x =< b type of constrain, here derivative is zero
+%         t_points = 100;
+%         t_eval = linspace(0,0.8,t_points)';
+%         A = [2*t_eval t_eval zeros(t_points,1)]; %Derivative of x^2 + x + c is 2x + c + 0 = b
+%         b = zeros(t_points,1);
+%         
+%         C = [t.^2 t ones(size(t))]; %3rd degree polynomial
+%         x_lsqlin1 = lsqlin(C,y,A,b,Aeq,beq);
+%         
+%         X_pred = reshape([X_from(:).^2 X_from(:) ones(size(X_from(:)))] * x_lsqlin1, size(X_measured));
+%     end
+%     
+% end
+% 
+% 
+% if what == 100 %FA2D from IA standard
+%     
+%     mdl = fitlm(X_from(ROI > 0),X_measured(ROI > 0),'Intercept',false);
+%     X_pred = mdl.Coefficients.Estimate(1) .* X_from;
+%     
+% end
+% 
+% 
+% if what == 10 %CD->MD or IA -> FAIP linear, IA -> FAIP linear no intersect
+%     all = [X_from(:)];
+%     mdl_all = fitlm(all(ROI>0,:), X_measured(ROI>0));
+%     X_pred = reshape([ones(size(X_from(:))) all] * mdl_all.Coefficients.Estimate, size(X_measured));
+% end
+% 
+% 
+% 
+% 
+% 
+% if what == 1102 %CD-> MD or IA -> FAIP quadratic but on a training set only from ML
+%     all = [X_from(:).^2 X_from(:)];
+%     mdl_all = fitlm(all(ROI>0 & ROI_test_set == 0,:), X_measured(ROI>0 & ROI_test_set == 0));
+%     X_pred = reshape([ones(size(X_from(:))) all] * mdl_all.Coefficients.Estimate, size(X_measured));
+%     
+% end
+% 
+% 

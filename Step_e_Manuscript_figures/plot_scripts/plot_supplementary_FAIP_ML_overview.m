@@ -12,7 +12,7 @@ for id = 1:numel(idx)
     
     disp(sample)
     
-    addpath('../../zAnalyze_FAIP')
+    addpath('../zAnalyze_FA2D')
         
     lims_scatter  = 1;
     dif_lims = 0.5;

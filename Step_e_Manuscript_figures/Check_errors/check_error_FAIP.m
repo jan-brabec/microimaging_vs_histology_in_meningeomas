@@ -1,20 +1,18 @@
 function check_error_FAIP(sample)
 % function check_error_FAIP(sample)
 
-% load(fullfile('..','data',strcat(num2str(sample)),'coreg_fine','ver1','HE.mat'),'HE');
-
-load(fullfile('..','..','local_data',strcat(num2str(sample)),'coreg_fine','ver1','HE.mat'),'HE');
-load(fullfile('..','..','local_data','summary.mat'),'sMR','sROI_ver2','sHd')
-addpath('../M_functions')
+load(fullfile('..','..','..','data',strcat(num2str(sample)),'coreg_fine','ver1','HE.mat'),'HE');
+load(fullfile('..','summary.mat'),'sMR','sROI','sHd')
+addpath(fullfile('..','M_functions'));
 
 dif_lims = 0.5;
-[lims_dir_FA2D, lims_dir_IA] = get_dir_lims(sample,0.6);
+[lims_dir_FAIP, lims_dir_SA] = get_dir_lims(sample,0.6);
 
-IA   = process_map(sHd{sample}.dIA,sROI_ver2{sample},lims_dir_IA,1);
-FA2D = process_map(sMR{sample}.FA2D,sROI_ver2{sample},lims_dir_FA2D,0);
-FA2D_pred = predict_map(IA,FA2D,sROI_ver2{sample},sample,11);
-FA2D_pred = process_map(FA2D_pred,sROI_ver2{sample},lims_dir_FA2D,0);
-[dif_IA,c_map_IA] = make_dif_map(FA2D,FA2D_pred,sROI_ver2{sample},dif_lims);
+SA   = process_map(sHd{sample}.dSA,sROI{sample},lims_dir_SA,1);
+FAIP = process_map(sMR{sample}.FAIP,sROI{sample},lims_dir_FAIP,0);
+FAIP_pred = predict_map(SA,FAIP,sROI{sample},sample,11);
+FAIP_pred = process_map(FAIP_pred,sROI{sample},lims_dir_FAIP,0);
+[dif_SA,c_map_SA] = make_dif_map(FAIP,FAIP_pred,sROI{sample},dif_lims);
 
 
 figure(202);
@@ -40,24 +38,24 @@ set(h_im, 'ButtonDownFcn', @im_click_A, 'userdata', [h5 h10]);
 axis image off;
 
 axes(ha(2)); cla; hold off;
-h_im = imagesc(dif_IA);
+h_im = imagesc(dif_SA);
 set(h_im, 'ButtonDownFcn', @im_click_B, 'userdata', [h5 h10]);
-colormap(ha(2), c_map_IA);
+colormap(ha(2), c_map_SA);
 caxis([-dif_lims dif_lims])
 axis image off
 
 axes(ha(3)); cla; hold off;
-h_im = imagesc(FA2D);
+h_im = imagesc(FAIP);
 set(h_im, 'ButtonDownFcn', @im_click_B, 'userdata', [h5 h10]);
 colormap(ha(3), 'gray');
-caxis([0 lims_dir_FA2D])
+caxis([0 lims_dir_FAIP])
 axis image off
 
 axes(ha(4)); cla; hold off;
-h_im = imagesc(IA);
+h_im = imagesc(SA);
 set(h_im, 'ButtonDownFcn', @im_click_B, 'userdata', [h5 h10]);
 colormap(ha(4), 'gray');
-caxis([0 lims_dir_IA])
+caxis([0 lims_dir_SA])
 axis image off
 
 

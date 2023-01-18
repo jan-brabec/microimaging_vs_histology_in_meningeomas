@@ -32,7 +32,7 @@ for sample in samples:
   print("\n\n------------------------")
   print(f"Sample number {sample}")
   samples_to_train = [sample]
-  train_dataset, validation_dataset, test_dataset, PATCH_SIZE, train_indices, validation_indices, test_indices, full_dataset = load_data(samples_to_train, train_size = 0.6, validation_size = 0.2, test_size = 0.2, get_indices = True, get_full_data = True, get_FA2D = True)
+  train_dataset, validation_dataset, test_dataset, PATCH_SIZE, train_indices, validation_indices, test_indices, full_dataset = load_data(samples_to_train, train_size = 0.6, validation_size = 0.2, test_size = 0.2, get_indices = True, get_full_data = True, get_FAIP = True)
   print("- Data loaded")
 
   #-----------------------------------------------------------
@@ -65,11 +65,14 @@ for sample in samples:
 
   model0.compile(optimizer=optimizer,
   loss = 'mean_squared_error',
-  metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
+  metrics = [tfa.metrics.RSquare(dtype=tf.float32)])
+  #metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
+  
 
   model.compile(optimizer=optimizer,
   loss = 'mean_squared_error',
-  metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
+  metrics = [tfa.metrics.RSquare(dtype=tf.float32)])
+  #metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
 
   # model.summary()
   print("- Model prepared")

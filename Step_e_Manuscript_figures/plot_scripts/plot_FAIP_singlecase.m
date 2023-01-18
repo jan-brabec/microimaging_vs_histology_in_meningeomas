@@ -20,21 +20,20 @@ end
 dif_lims = 0.5;
 [lims_dir_FA2D, lims_dir_IA] = get_dir_lims(sample,0.6);
 
-IA   = process_map(sHd{sample}.dIA,sROI_ver2{sample},lims_dir_IA,1);
-FA2D = process_map(sMR{sample}.FA2D,sROI_ver2{sample},lims_dir_FA2D,0);
+IA   = process_map(sHd{sample}.dIA,sROI{sample},lims_dir_IA,1);
+FA2D = process_map(sMR{sample}.FA2D,sROI{sample},lims_dir_FA2D,0);
 
-FA2D_pred = predict_map(IA,FA2D,sROI_ver2{sample},sample,11);
-FA2D_pred = process_map(FA2D_pred,sROI_ver2{sample},lims_dir_FA2D,0);
+FA2D_pred = predict_map(IA,FA2D,sROI{sample},sample,11);
+FA2D_pred = process_map(FA2D_pred,sROI{sample},lims_dir_FA2D,0);
 
-[dif_IA,c_map_IA] = make_dif_map(FA2D,FA2D_pred,sROI_ver2{sample},dif_lims);
+[dif_IA,c_map_IA] = make_dif_map(FA2D,FA2D_pred,sROI{sample},dif_lims);
 
 ax1 = subplot(1,2,1);
-% scatter(IA(sROI_ver2{sample} > 0),FA2D(sROI_ver2{sample} > 0),2);
 addpath('dscatter')
-dscatter(IA(sROI_ver2{sample} > 0),FA2D(sROI_ver2{sample} > 0),'msize',30,'SMOOTHING',30,'BINS',[200,200],'PLOTTYPE','scatter')
+dscatter(IA(sROI{sample} > 0),FA2D(sROI{sample} > 0),'msize',30,'SMOOTHING',30,'BINS',[200,200],'PLOTTYPE','scatter')
 
 hold on
-plot(IA(sROI_ver2{sample} > 0),FA2D_pred(sROI_ver2{sample} > 0),'.','Linewidth',2);
+plot(IA(sROI{sample} > 0),FA2D_pred(sROI{sample} > 0),'.','Linewidth',2);
 
 if sample == 5
     yticks([0 0.5 1])
@@ -68,7 +67,6 @@ imagesc(dif_IA);
 colormap(ax,c_map_IA);
 caxis([-dif_lims dif_lims])
 axis image off
-colorbar;
 
 set(gca,'FontSize',20)
 set(gca,'box','off')
@@ -81,6 +79,6 @@ set(gcf,'color','w');
 drawnow;
 
 
-R2 = calc_R2(FA2D,FA2D_pred,sROI_ver2{sample} > 0)
+R2 = calc_R2(FA2D,FA2D_pred,sROI{sample} > 0)
 
 print(sprintf('FA2D_example.png'),'-dpng','-r500')

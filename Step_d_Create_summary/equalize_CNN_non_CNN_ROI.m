@@ -3,7 +3,7 @@ function ROI_CNN = equalize_CNN_non_CNN_ROI(MD_meas_CNN,MD_meas,ROI_no_CNN)
 %
 % ROI equalizes because it was a bit different
 
-addpath('../Manuscript_figures/M_functions')
+addpath('../Step_e_Manuscript_figures/M_functions')
 
 MD_lims = 1;
 
@@ -16,9 +16,7 @@ dif(abs(MD_meas - MD_meas_CNN) > eps) = 0;
 ROI_CNN = ROI_no_CNN .* dif;
 
 
-
-
-if (0) %print difference
+if (0) %print difference between CNN ROI and "our" ROI
     axs = 1;
     ha = tight_subplot(1,5,[.01,.01],[.01,.01],[.01,.01]);
 

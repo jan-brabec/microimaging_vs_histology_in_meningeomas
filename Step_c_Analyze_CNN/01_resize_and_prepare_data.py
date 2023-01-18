@@ -1,31 +1,27 @@
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import h5py
 from PIL import Image
-import os
 
 
 all_items = list(range(1,17))
-all_items = [1]
 
 patchsize = 360
 
 for i in all_items:
     i_dirname = f"../../data/{i}/coreg_fine/ver1/"
     o_dirname = f"../../data/{i}/CNN/ver1/"
-    os.mkdir(o_dirname)
     
     print(f"Processing sample {i}")
     fHE = h5py.File(i_dirname + "HE.mat", 'r')
+    fHE_mask = h5py.File(i_dirname + "HE_mask.mat", 'r')
     fMR = h5py.File(i_dirname + "MR.mat", 'r')
-    print(fHE.keys())
+    
     # get HE data
     he_origin = np.array(fHE['HE'])
     # change axis because of RGB channel
     he = np.moveaxis(he_origin, 0, -1)
-    he_mask = np.array(fHE['HE_mask'])
-    dhe_mask = np.array(fHE['dHE_mask'])
+    he_mask = np.array(fHE_mask['HE_mask'])
+    dhe_mask = np.array(fHE_mask['dHE_mask'])
     MR_MD = np.array(fMR['MR']['MD'])
     MR_FAIP = np.array(fMR['MR']['FAIP'])
     MR_roi = np.array(fMR['MR']['ROI'])
@@ -39,7 +35,7 @@ for i in all_items:
     x = np.empty([*MR_MD.shape, patchsize, patchsize, 3], np.ubyte)
     x_mask = np.empty(MR_MD.shape, np.bool)
     y_MD = np.empty([*MR_MD.shape, 3], np.float32)
-    y_FA2D = np.empty([*MR_MD.shape, 3], np.float32)
+    y_FAIP = np.empty([*MR_MD.shape, 3], np.float32)
 
     print(patchsx, patchsy, patchsx/patchsy)
     print("Transforming")
@@ -61,6 +57,7 @@ for i in all_items:
     x = x.reshape([-1,*x.shape[2:]])[x_mask.reshape([-1]),:,:,:]
     y_MD = y_MD.reshape([-1,3])[x_mask.reshape([-1]),:]
     y_FAIP = y_FAIP.reshape([-1,3])[x_mask.reshape([-1]),:]
+    
     # saving to file
     print("Saving")
     np.save(o_dirname + "resized_xdata.npy", x)

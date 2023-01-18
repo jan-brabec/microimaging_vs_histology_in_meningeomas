@@ -1,16 +1,12 @@
 clf
 colorbar
 
-
 %1
 % colormap(flipud(gray));
 
 %2
 colormap(gray);
 
-%3
-% addpath('dscatter')
-% colormap(ff_cmap_viridis)
 
 axis off
 
@@ -32,11 +28,3 @@ fig = gcf;
 fig.InvertHardcopy = 'off';
 
 print(sprintf('bar.png'),'-dpng','-r300')
-
-
-
-% MD_lim   = 1;
-% FA2D_lim = 0.7;
-% FA_lim   = 0.7;
-% IA_lim   = 0.7;
-% CD_lim   = [0.4 1];

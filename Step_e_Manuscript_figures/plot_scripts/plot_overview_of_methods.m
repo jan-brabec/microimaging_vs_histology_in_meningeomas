@@ -1,14 +1,14 @@
 sample = 5;
 
-load(fullfile('..','data','summary.mat'))
+load(fullfile('..','summary.mat'))
 
 addpath('../zAnalyze_MD')
 addpath('../zCoreg_fine')
 
 if (1)
-    load(fullfile(fullfile('..','data',num2str(sample),'coreg_fine','ver1'),'HE.mat'),'HE','dHE_mask','HE_mask');
-    load(fullfile(fullfile('..','data',num2str(sample),'anisotropy','ver1'),'IA.mat'),'H')
-    pos = tdfread(fullfile('..','zAnalyze_MD','data',strcat(num2str(sample)),'measurements.tsv'));
+    pos = tdfread(fullfile('..','..','..','data',num2str(sample),'cell_density','QuPath','measurements.tsv'));    
+    load(fullfile(fullfile('..','..','..','data',num2str(sample),'coreg_fine','ver1'),'HE.mat'),'HE','dHE_mask','HE_mask');
+    load(fullfile(fullfile('..','..','..','data',num2str(sample),'anisotropy','ver1'),'IA.mat'),'H')
 end
 
 MD_lim   = 1;

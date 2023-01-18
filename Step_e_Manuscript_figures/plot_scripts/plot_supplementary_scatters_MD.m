@@ -3,6 +3,14 @@ addpath(genpath('../M_functions'))
 
 ha = tight_subplot(4,4,[.04,.02],[.05,.05],[.01,.01]);
 
+%decrease in MD % 1 2 3 7 13
+%no correlation % 12 8 15
+%no correlation but systematic problems % 9 10 5 6
+%coregistration errors % 4 13 14 16
+
+%      1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
+% idx = [1 2 3 7 13 12 8 15 9 10 5 6 4 14 11 16];
+
 idx = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
 axs = 1;
 
@@ -11,7 +19,7 @@ for id = 1:numel(idx)
     sample = idx(id);
     disp(sample)
     
-    addpath('../../zAnalyze_FAIP')
+    addpath('../zAnalyze_FA2D')
     
     CD_lims  = 1;
     MD_lims = 1.5;

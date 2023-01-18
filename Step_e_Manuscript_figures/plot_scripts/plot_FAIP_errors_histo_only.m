@@ -1,8 +1,8 @@
 %plot screenshots
 clear; clc;
-load(fullfile('..','..','local_data','HE_screenshots_FAIP.mat'),'sc')
-load(fullfile('..','..','local_data','summary.mat'),'sMR','sROI_ver2','sHd')
-addpath('../M_functions');
+load(fullfile('..','HE_screenshots_FAIP.mat'),'sc')
+load(fullfile('..','summary.mat'),'sMR','sROI','sHd')
+addpath(fullfile('..','M_functions'));
 
 pnt_col = [157, 195, 230;...
     187, 101, 143;...
@@ -15,11 +15,14 @@ font_size = 10;
 txt_posx = 100;
 txt_posy = 150;
 
-
 indx = [36 37 38; ...  %high IA
         39 40 41; ... %low
         8   6 13]; %weird
     
+%for ESNR
+% indx = [37 40]; %high IA low IA
+
+
 sc{99}.sample = 99;
 sc{99}.descrip = 'blank';
 sc{99}.im = cast(ones(size(sc{1}.im))*255,'uint8');
@@ -30,7 +33,6 @@ ha = tight_subplot(size(indx,1),size(indx,2),[.01,.01],[.01,.01],[.01,.01]);
 
 indx = indx';
 indx = indx(:);
-
 
 for c_exp = 1:numel(indx)
     sz(c_exp,:) = size(sc{indx(c_exp)}.im);
@@ -58,20 +60,20 @@ for c_exp = 1:numel(indx)
         sample = sc{indx(c_exp)}.sample;
         dif_lims = 0.5;
         [lims_dir_FA2D, lims_dir_IA] = get_dir_lims(sample,0.6);
-        IA   = process_map(sHd{sample}.dIA,sROI_ver2{sample},lims_dir_IA,1);
-        FAIP = process_map(sMR{sample}.FA2D,sROI_ver2{sample},lims_dir_FA2D,0);
+        IA   = process_map(sHd{sample}.dIA,sROI{sample},lims_dir_IA,1);
+        FAIP = process_map(sMR{sample}.FA2D,sROI{sample},lims_dir_FA2D,0);
         
         for i = 1:100
             [~,test_set_measured,test_set_predicted,test_set_usedforpred] = ...
-                predict_map(IA,FAIP,sROI_ver2{sample},sample,1101);
+                predict_map(IA,FAIP,sROI{sample},sample,1101);
             
             R2_FAIP_IA_test_bootstrap(i) = calc_R2(test_set_measured,test_set_predicted);
         end
         
-        FAIP_pred = predict_map(IA,FAIP,sROI_ver2{sample},sample,11);
-        FAIP_pred = process_map(FAIP_pred,sROI_ver2{sample},lims_dir_FA2D,0);
+        FAIP_pred = predict_map(IA,FAIP,sROI{sample},sample,11);
+        FAIP_pred = process_map(FAIP_pred,sROI{sample},lims_dir_FA2D,0);
         
-        [dif_IA,c_map_IA] = make_dif_map(FAIP,FAIP_pred,sROI_ver2{sample},dif_lims);
+        [dif_IA,c_map_IA] = make_dif_map(FAIP,FAIP_pred,sROI{sample},dif_lims);
         
         nIA   =     IA(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));
         nFAIP =   FAIP(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));

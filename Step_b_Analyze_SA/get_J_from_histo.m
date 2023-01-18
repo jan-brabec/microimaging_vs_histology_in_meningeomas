@@ -4,7 +4,7 @@ function [J_11,J_12,J_22] = get_J_from_histo(C_histo,cases)
 % Computes tensor from histological image.
 %
 % Written by Filip Szczepankiewicz (filip.szczepankiewicz@med.lu.se) based
-% on code that was adapted from some other version.
+% on code that was adapted from some other author.
 
 A = single(mean(C_histo,3));
 
@@ -62,7 +62,7 @@ M = ~M;
 fx = repmat(linspace(-1,1,size(f1,1)),size(f1,2),1)  .* f1;
 fy = repmat(linspace(-1,1,size(f1,1)),size(f1,2),1)' .* f1;
 
-%This is the main part?
+%This is the main part.
 DX = convn(A, fx, 'same');
 DY = convn(A, fy, 'same');
 
