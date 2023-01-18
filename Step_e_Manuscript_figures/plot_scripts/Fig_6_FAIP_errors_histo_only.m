@@ -15,13 +15,9 @@ font_size = 10;
 txt_posx = 100;
 txt_posy = 150;
 
-indx = [36 37 38; ...  %high IA
-        39 40 41; ... %low
-        8   6 13]; %weird
-    
-%for ESNR
-% indx = [37 40]; %high IA low IA
-
+indx = [4 5 6; ...  %high IA
+        7 8 9; ... %low
+        2 1 3]; %weird
 
 sc{99}.sample = 99;
 sc{99}.descrip = 'blank';
@@ -59,27 +55,27 @@ for c_exp = 1:numel(indx)
         %This is to calculate values
         sample = sc{indx(c_exp)}.sample;
         dif_lims = 0.5;
-        [lims_dir_FA2D, lims_dir_IA] = get_dir_lims(sample,0.6);
-        IA   = process_map(sHd{sample}.dIA,sROI{sample},lims_dir_IA,1);
-        FAIP = process_map(sMR{sample}.FA2D,sROI{sample},lims_dir_FA2D,0);
+        [lims_dir_FAIP, lims_dir_SA] = get_dir_lims(sample,0.6);
+        SA   = process_map(sHd{sample}.dSA,sROI{sample},lims_dir_SA,1);
+        FAIP = process_map(sMR{sample}.FAIP,sROI{sample},lims_dir_FAIP,0);
         
-        for i = 1:100
+        for i = 1:10
             [~,test_set_measured,test_set_predicted,test_set_usedforpred] = ...
-                predict_map(IA,FAIP,sROI{sample},sample,1101);
+                predict_map(SA,FAIP,sROI{sample},sample,1101);
             
-            R2_FAIP_IA_test_bootstrap(i) = calc_R2(test_set_measured,test_set_predicted);
+            R2_FAIP_SA_test_bootstrap(i) = calc_R2(test_set_measured,test_set_predicted);
         end
         
-        FAIP_pred = predict_map(IA,FAIP,sROI{sample},sample,11);
-        FAIP_pred = process_map(FAIP_pred,sROI{sample},lims_dir_FA2D,0);
+        FAIP_pred = predict_map(SA,FAIP,sROI{sample},sample,11);
+        FAIP_pred = process_map(FAIP_pred,sROI{sample},lims_dir_FAIP,0);
         
-        [dif_IA,c_map_IA] = make_dif_map(FAIP,FAIP_pred,sROI{sample},dif_lims);
+        [dif_SA,c_map_SA] = make_dif_map(FAIP,FAIP_pred,sROI{sample},dif_lims);
         
-        nIA   =     IA(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));
+        nSA   =     SA(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));
         nFAIP =   FAIP(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));
-        nDI   = dif_IA(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));
-        R2    = round(median(R2_FAIP_IA_test_bootstrap),2);
-        text(txt_posx,txt_posy,sprintf('S %0.0f R$^2$ %0.2f SA %0.2f FA$_{\\textrm{IP}}$ %0.2f $\\epsilon$ %0.2f',sc{indx(c_exp)}.sample,R2,nIA,nFAIP,nDI),'FontSize',font_size,'interpreter','latex')
+        nDI   = dif_SA(sc{indx(c_exp)}.MR_point(2),sc{indx(c_exp)}.MR_point(1));
+        R2    = round(median(R2_FAIP_SA_test_bootstrap),2);
+        text(txt_posx,txt_posy,sprintf('S %0.0f R$^2$ %0.2f SA %0.2f FA$_{\\textrm{IP}}$ %0.2f $\\epsilon$ %0.2f',sc{indx(c_exp)}.sample,R2,nSA,nFAIP,nDI),'FontSize',font_size,'interpreter','latex')
     end
     
     

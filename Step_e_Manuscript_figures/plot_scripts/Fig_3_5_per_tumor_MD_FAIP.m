@@ -13,21 +13,21 @@ for sample = 1:16
     end
     lims_scatter  = 1;
     dif_lims = 0.5;
-    [lims_dir_FA2D, lims_dir_IA] = get_dir_lims(sample,0.6);
+    [lims_dir_FAIP, lims_dir_SA] = get_dir_lims(sample,0.6);
     
 
     
     CD = process_map(sCD{sample},sROI{sample},CD_lims,1);
-    IA   = process_map(sHd{sample}.dIA,sROI{sample},lims_dir_IA,1);
+    SA   = process_map(sHd{sample}.dSA,sROI{sample},lims_dir_SA,1);
         
     MD   = process_map(sMR{sample}.MD,  sROI{sample},MD_lims,0);
-    FA2D = process_map(sMR{sample}.FA2D,sROI{sample},lims_dir_FA2D,0);    
+    FAIP = process_map(sMR{sample}.FAIP,sROI{sample},lims_dir_FAIP,0);    
 
     MD_per_tu(sample)   = mean(MD(sROI{sample} > 0));
     CD_per_tu(sample)   = mean(CD(sROI{sample} > 0));
     
-    FA2D_per_tu(sample) = mean(FA2D(sROI{sample} > 0));    
-    IA_per_tu(sample)   = mean(IA(sROI{sample} > 0));
+    FAIP_per_tu(sample) = mean(FAIP(sROI{sample} > 0));    
+    SA_per_tu(sample)   = mean(SA(sROI{sample} > 0));
 end
 
 
@@ -58,12 +58,12 @@ xticks([0 0.5 1])
 yticks([0 0.5 1])
 
 subplot(1,2,2)
-scatter(IA_per_tu,FA2D_per_tu,400,'.')
+scatter(SA_per_tu,FAIP_per_tu,400,'.')
 hold on
-R2_FA2D = calc_R2(IA_per_tu,FA2D_per_tu)
+R2_FAIP = calc_R2(SA_per_tu,FAIP_per_tu)
 % title(sprintf('R^2 = %1.1f',R2_FA2D));
 
-coeffs = polyfit(IA_per_tu, FA2D_per_tu, 1);
+coeffs = polyfit(SA_per_tu, FAIP_per_tu, 1);
 fittedX = linspace(0, 1, 200);
 fittedY = polyval(coeffs, fittedX);
 plot(fittedX, fittedY, 'r-', 'LineWidth', 3);
@@ -82,4 +82,4 @@ ylim([0 0.6])
 xticks([0 0.3 0.6])
 yticks([0 0.3 0.6])
 
-print(sprintf('MD_FA2D_per_tumor.png'),'-dpng','-r300')
+print(sprintf('MD_FAIP_per_tumor.png'),'-dpng','-r300')

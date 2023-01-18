@@ -2,9 +2,6 @@ sample = 5;
 
 load(fullfile('..','summary.mat'))
 
-addpath('../zAnalyze_MD')
-addpath('../zCoreg_fine')
-
 if (1)
     pos = tdfread(fullfile('..','..','..','data',num2str(sample),'cell_density','QuPath','measurements.tsv'));    
     load(fullfile(fullfile('..','..','..','data',num2str(sample),'coreg_fine','ver1'),'HE.mat'),'HE','dHE_mask','HE_mask');

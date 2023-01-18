@@ -2,7 +2,7 @@ clear; clf;
 addpath('../M_functions')
 
 ha = tight_subplot(2,4,[.01,.01],[.01,.01],[.01,.01]);
-data_path = fullfile('..','..','data');
+data_path = fullfile('..','..','..','data');
 
 s = 500;
 

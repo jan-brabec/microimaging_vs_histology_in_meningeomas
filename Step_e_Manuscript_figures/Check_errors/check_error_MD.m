@@ -1,8 +1,8 @@
 function check_error_MD(sample)
 % function check_error_MD(sample)
 
-load(fullfile('..','..','local_data',strcat(num2str(sample)),'coreg_fine','ver1','HE.mat'),'HE');
-load(fullfile('..','..','local_data','summary.mat'),'sMR','sROI_ver2','sCDA_raw')
+load(fullfile('..','..','..','data',strcat(num2str(sample)),'coreg_fine','ver1','HE.mat'),'HE');
+load(fullfile('..','summary.mat'),'sMR','sROI','sCD')
 
 CD_lims  = 1;
 dif_lims = 0.5;
@@ -13,11 +13,11 @@ else
     MD_lims = 1;
 end
 
-MD = process_map(sMR{sample}.MD,sROI_ver2{sample},MD_lims,0);
-CD = process_map(sCDA_raw{sample},sROI_ver2{sample},CD_lims,1);
-MD_pred = predict_map(CD,MD,sROI_ver2{sample},sample,11);
-MD_pred = process_map(MD_pred,sROI_ver2{sample},MD_lims,0);
-[dif_CD, c_map_CD]   = make_dif_map(MD,MD_pred, sROI_ver2{sample},dif_lims);
+MD = process_map(sMR{sample}.MD,sROI{sample},MD_lims,0);
+CD = process_map(sCD{sample},sROI{sample},CD_lims,1);
+MD_pred = predict_map(CD,MD,sROI{sample},sample,11);
+MD_pred = process_map(MD_pred,sROI{sample},MD_lims,0);
+[dif_CD, c_map_CD]   = make_dif_map(MD,MD_pred, sROI{sample},dif_lims);
 
 figure(202);
 clf;

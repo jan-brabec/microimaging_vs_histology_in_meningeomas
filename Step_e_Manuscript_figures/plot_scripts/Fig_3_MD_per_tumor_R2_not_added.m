@@ -15,7 +15,7 @@ for sample = 1:16
     
     MD_meas_per_sample(sample) = std(MD_meas(sROI{sample} > 0));
     
-    for i = 1:1000
+    for i = 1:10
         [MD_pred_CD,test_set_measured,test_set_predicted,test_set_usedforpred] =...
             predict_map(CD,MD_meas,sROI{sample},sample,1101);
          MD_pred_CD      = process_map(MD_pred_CD,sROI{sample},MD_lims,0);
