@@ -1,13 +1,7 @@
 %Create SA maps to improve the fine coregistration step
 clear
 
-samples = [6, 10, 16];
-
 for sample = 1:16
-    
-    if sum(sample==samples)==0
-        continue
-    end
     
     sample
     i_HE_data_path = fullfile('..','..','data',num2str(sample),'coreg_rigid','ver1');
