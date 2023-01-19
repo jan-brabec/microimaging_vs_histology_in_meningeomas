@@ -76,10 +76,6 @@ axis image off
 axes(ha(6)); %Clear-cell WHO II
 sample = 10;
 i_pth_HE  = fullfile(data_path,num2str(sample),'coreg_fine','ver1');
-load(fullfile(i_pth_HE,'HE.mat'),'HE')
-
-% x = 22860;
-% y = 15150;
 
 y = 10480;
 x = 17080;
@@ -93,15 +89,6 @@ axes(ha(7)); %Chordoid WHO II
 sample = 2;
 i_pth_HE  = fullfile(data_path,num2str(sample),'coreg_fine','ver1');
 load(fullfile(i_pth_HE,'HE.mat'),'HE')
-% 
-% x = 3352;
-% y = 11300;
-
-% x = 4139;
-% y = 6674;
-
-% x = 1204;
-% y = 3493;
 
 x = 3430;
 y = 1204;

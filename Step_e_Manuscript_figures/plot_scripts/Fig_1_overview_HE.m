@@ -17,3 +17,5 @@ for sample = 1:16
     imagesc(flipud(HE))
     axis image off
 end
+
+print(sprintf('HE_overview.png'),'-dpng','-r500')

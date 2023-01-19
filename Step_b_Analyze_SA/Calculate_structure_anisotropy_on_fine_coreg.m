@@ -1,7 +1,7 @@
 %Create SA maps
 clear
 
-for sample = 2:2
+for sample = 1:16
     sample
     data_path = fullfile('..','..','data',num2str(sample));
     
