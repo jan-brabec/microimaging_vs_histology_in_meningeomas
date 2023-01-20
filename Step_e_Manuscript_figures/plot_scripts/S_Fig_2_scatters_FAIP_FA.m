@@ -8,9 +8,6 @@ ha = tight_subplot(4,4,[.04,.02],[.05,.05],[.01,.01]);
 %no correlation but systematic problems % 9 10 5 6
 %coregistration errors % 4 13 14 16
 
-%      1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-% idx = [1 2 3 7 13 12 8 15 9 10 5 6 4 14 11 16];
-
 idx = [1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16];
 axs = 1;
 
@@ -28,6 +25,7 @@ for id = 1:numel(idx)
     
     SA   = process_map(sHd{sample}.dSA,sROI{sample},lims_dir_SA,1);
     FAIP = process_map(sMR{sample}.FAIP,sROI{sample},lims_dir_FAIP,0);
+    %Select either sMR{sample}.FA or sMR{sample}.FAIP to predict FA or FAIP
     
     FAIP_pred1 = predict_map(SA,FAIP,sROI{sample},sample,91);  %linear 
     FAIP_pred1 = process_map(FAIP_pred1,sROI{sample},lims_dir_FAIP,0);
@@ -53,7 +51,7 @@ for id = 1:numel(idx)
     h(3) = plot(SA(sROI{sample} > 0),FAIP_pred3(sROI{sample} > 0),'.','Markersize',m_size2); pbaspect([1 1 1]);
     h(4) = plot(SA(sROI{sample} > 0),FAIP_pred4(sROI{sample} > 0),'.','Markersize',m_size2); pbaspect([1 1 1]);
     
-    text(0.6,1,['R^2 = ', num2str(R2_1)]);
+    text(0.6,1,   ['R^2 = ', num2str(R2_1)]);
     text(0.6,0.87,['R^2 = ', num2str(R2_2)]);
     text(0.6,0.74,['R^2 = ', num2str(R2_3)]);
     text(0.6,0.61,['R^2 = ', num2str(R2_4)]);
@@ -72,4 +70,4 @@ for id = 1:numel(idx)
     axs = axs + 1;
 end
 
-print(sprintf('Scatters_SA_FAIP.png'),'-dpng','-r500')
+print(sprintf('Scatters_SA_FAIP_or_FA.png'),'-dpng','-r500')
