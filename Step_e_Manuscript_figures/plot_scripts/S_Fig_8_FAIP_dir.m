@@ -39,4 +39,4 @@ for idx = 1:numel(idxs)
     
 end
 
-print(sprintf('FAIP_dirs.png'),'-dpng','-r500')
+% print(sprintf('FAIP_dirs.png'),'-dpng','-r500')

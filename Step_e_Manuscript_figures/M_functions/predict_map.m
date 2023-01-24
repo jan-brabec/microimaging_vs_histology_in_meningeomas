@@ -1,11 +1,7 @@
-function [X_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = predict_map(X_from,X_measured,ROI,sample,what,ROI_test_set)
-% function X_pred = predict_map(X,ROI,sample,FA2DorMD)
+function [X_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = predict_map(X_from,X_measured,ROI,what)
+% function [X_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = predict_map(X_from,X_measured,ROI,what)
 %
-% Predicts map from CD->MD or IA->FA2D.
-
-if nargin < 6
-    ROI_test_set = NaN;
-end
+% Predicts map from CD->MD or SA->FAIP.
 
 test_set_measured    = NaN;
 test_set_predicted   = NaN;
@@ -27,8 +23,8 @@ if what == 1101 %CD-> MD or IA -> FAIP quadratic but on a test set only
     ind_test_set = zeros(numel(X_from2fit),1);
     ind_test_set(id_test_set) = 1;
     
-    test_set_measured = X_measured2fit(ind_test_set==1); %MD or FA2D measured
-    test_set_usedforpred = X_from2fit(ind_test_set==1); %IA or CD
+    test_set_measured = X_measured2fit(ind_test_set==1); %MD or FAIP measured
+    test_set_usedforpred = X_from2fit(ind_test_set==1); %SA or CD
     
     X_from2fit = X_from2fit(ind_test_set==0);
     X_measured2fit = X_measured2fit(ind_test_set==0);
@@ -87,7 +83,7 @@ if what == 99 %MD - CD constrained quadratic
     X_pred = reshape([X_from(:).^2 X_from(:) ones(size(X_from(:)))] * x_lsqlin1, size(X_measured));
 end
 
-if what == 98 %FA2D from IA linear no intercept
+if what == 98 %FAIP from SA linear no intercept
     
     mdl = fitlm(X_from(ROI > 0),X_measured(ROI > 0),'Intercept',false);
     X_pred = mdl.Coefficients.Estimate(1) .* X_from;

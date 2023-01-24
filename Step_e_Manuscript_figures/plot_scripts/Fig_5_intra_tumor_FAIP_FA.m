@@ -1,4 +1,4 @@
-clear; clf; clc; load(fullfile('..','summary.mat'))
+clear; clc; load(fullfile('..','summary.mat'))
 addpath('../M_functions')
 
 for sample = 1:16
@@ -17,7 +17,7 @@ for sample = 1:16
     
     for i = 1:1000
         [FAIP_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = ...
-            predict_map(SA,FAIP_meas,sROI{sample},sample,1101);
+            predict_map(SA,FAIP_meas,sROI{sample},1101);
         
         R2_FAIP_SA_test_bootstrap(sample,i) = calc_R2(test_set_measured,test_set_predicted);
         MSE_CD(sample,i) = calc_MSE(test_set_measured,test_set_predicted);
@@ -28,7 +28,7 @@ for sample = 1:16
 end
 
 
-if (1) %R squared out-of-sample plot
+if (0) %R squared out-of-sample plot
     
     R2OOS = calc_R2OOS(median(MSE_CD,2),MSE_CNN');
     
@@ -50,7 +50,11 @@ end
 
 
 
-if (0) %What we had there previously
+if (1) %What we had there previously
+    
+    subplot(3,1,1)
+    hold on;
+    title(sprintf('R^2 by definition, median: SA %0.2f CNN %0.2f',median(median(R2_FAIP_SA_test_bootstrap,2)), median(R2_FAIP_CNN_test)))
     
     R2_FAIP_CNN_test(R2_FAIP_CNN_test<0) = 0;
     R2_FAIP_CNN_test(isnan(R2_FAIP_CNN_test)) = 0;
