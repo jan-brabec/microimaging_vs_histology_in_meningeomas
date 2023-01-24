@@ -11,9 +11,7 @@ end
 x  = X(ROI > 0);
 x_pred = X_pred(ROI > 0);
 
-if (0) %R2 by definition
-    x = X(ROI>0);
-    x_pred = X_pred(ROI>0);
+if (1) %R2 by definition
     
     SS_res = sum((x - x_pred).^2);
     SS_tot = sum((x - mean(x)).^2);
@@ -25,7 +23,7 @@ if (0) %Proportion of variance explained
     R2 = 1 - var(x - x_pred) / var(x);
 end
 
-if (1)
+if (0)
     %Pearson correlation coefficient squared is equal to coefficient of determination
     % for linear regression only, y = ax + b, but not generally for
     % multiple regression

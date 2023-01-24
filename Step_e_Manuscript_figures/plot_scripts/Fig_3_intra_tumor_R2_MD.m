@@ -13,12 +13,13 @@ for sample = 1:16
     
     MD_pred_CNN = process_map(sMD_CNN{sample}.I_MD_pred,sROI{sample},MD_lims,0);
     
-    for i = 1:1000
+    for i = 1:10
         [MD_pred_CD,test_set_measured,test_set_predicted,test_set_usedforpred] =...
             predict_map(CD,MD_meas,sROI{sample},1101);
         
         R2_MD_CD_test_bootstrap(sample,i) = calc_R2(test_set_measured,test_set_predicted);
         MSE_CD(sample,i) = calc_MSE(test_set_measured,test_set_predicted);
+        
     end
     
     R2_MD_CNN_test(sample) = calc_R2(MD_meas(sMD_CNN{sample}.test_ind == 1),MD_pred_CNN(sMD_CNN{sample}.test_ind == 1));
@@ -81,13 +82,13 @@ if (0) %R squared out-of-sample plot
 end
 
 if (0) %What we had previously
-    
+    clf
     %     subplot(3,1,3)
     %     hold on;
     %     title(sprintf('Correlation coefficient squared, median: CD %0.2f CNN %0.2f',median(median(R2_MD_CD_test_bootstrap,2)), median(R2_MD_CNN_test)))
     %
     R2_MD_CNN_test(isnan(R2_MD_CNN_test)) = 0;
-    
+        
     bar(1:16,[median(R2_MD_CD_test_bootstrap,2)';R2_MD_CNN_test], 'BarWidth', 1.2); hold on
     e = errorbar((1:16)-0.15,median(R2_MD_CD_test_bootstrap,2)',iqr(R2_MD_CD_test_bootstrap,2)/2);
     
