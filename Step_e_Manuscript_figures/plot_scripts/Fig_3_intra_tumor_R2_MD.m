@@ -13,7 +13,7 @@ for sample = 1:16
     
     MD_pred_CNN = process_map(sMD_CNN{sample}.I_MD_pred,sROI{sample},MD_lims,0);
     
-    for i = 1:10
+    for i = 1:1000
         [MD_pred_CD,test_set_measured,test_set_predicted,test_set_usedforpred] =...
             predict_map(CD,MD_meas,sROI{sample},1101);
         

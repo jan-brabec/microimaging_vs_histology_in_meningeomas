@@ -16,7 +16,7 @@ if (1) %R2 by definition
     SS_res = sum((x - x_pred).^2);
     SS_tot = sum((x - mean(x)).^2);
     
-    R2 = 1 - SS_res/SS_tot;
+    R2 = max(0, 1 - SS_res/SS_tot); %if below 0 -> add a constant term which makes it R=0
 end
 
 if (0) %Proportion of variance explained
@@ -26,7 +26,7 @@ end
 if (0)
     %Pearson correlation coefficient squared is equal to coefficient of determination
     % for linear regression only, y = ax + b, but not generally for
-    % multiple regression
+    % multiple regression or non-linear regression
     c = corrcoef(x,x_pred);
     R2 =  c(2,1) .^2;
 end
