@@ -27,6 +27,39 @@ for sample = 1:16
 end
 
 
+
+
+if (1)
+    clf
+    R2OOS = calc_R2OOS(median(MSE_CD,2),MSE_CNN');
+    
+    bar(1:16,[median(R2_MD_CD_test_bootstrap,2)';R2OOS'], 'BarWidth', 1.2); hold on
+    e = errorbar((1:16)-0.15,median(R2_MD_CD_test_bootstrap,2)',iqr(R2_MD_CD_test_bootstrap,2)/2);
+    
+    e.LineStyle = 'none';
+    e.LineWidth = 1.5;
+    e.Color = 'black';
+    
+    ylim([-0.7 0.7])
+    set(gca, 'XTick', [1:16])
+    set(gca, 'YTick', [-0.6 -0.4, -0.2, 0, 0.2, 0.4, 0.6])
+    set(gca,'FontSize',20)
+    set(gca,'box','off')
+    ax = gca;
+    ax.XAxis.LineWidth = 2;
+    ax.YAxis.LineWidth = 2;
+    set(ax,'tickdir','out');
+    ax.XGrid = 'off';
+    ax.YGrid = 'on';
+    legend('R^2 CD','R^2_{OOS} CD vs CNN','FontSize',10,'Location','southwest')
+    
+    qCD = quantile(median(R2_MD_CD_test_bootstrap,2),3);
+    fprintf('R2 CD intra-tumor: %0.2f (%0.2f - %0.2f) (median (25th quartile - 75th quartile))\n',median(median(R2_MD_CD_test_bootstrap,2)),qCD(1),qCD(3))
+    
+
+end
+
+
 if (0) %R squared out-of-sample plot
     
     R2OOS = calc_R2OOS(median(MSE_CD,2),MSE_CNN');
@@ -47,12 +80,12 @@ if (0) %R squared out-of-sample plot
     legend('R^2_{OOS} MD prediction by CD vs by CNN','FontSize',10,'Location','northeast')
 end
 
-if (1) %What we had previously
+if (0) %What we had previously
     
-    subplot(3,1,3)
-    hold on;
-    title(sprintf('Correlation coefficient squared, median: CD %0.2f CNN %0.2f',median(median(R2_MD_CD_test_bootstrap,2)), median(R2_MD_CNN_test)))
-    
+    %     subplot(3,1,3)
+    %     hold on;
+    %     title(sprintf('Correlation coefficient squared, median: CD %0.2f CNN %0.2f',median(median(R2_MD_CD_test_bootstrap,2)), median(R2_MD_CNN_test)))
+    %
     R2_MD_CNN_test(isnan(R2_MD_CNN_test)) = 0;
     
     bar(1:16,[median(R2_MD_CD_test_bootstrap,2)';R2_MD_CNN_test], 'BarWidth', 1.2); hold on

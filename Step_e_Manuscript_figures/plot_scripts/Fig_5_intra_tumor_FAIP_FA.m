@@ -20,12 +20,45 @@ for sample = 1:16
             predict_map(SA,FAIP_meas,sROI{sample},1101);
         
         R2_FAIP_SA_test_bootstrap(sample,i) = calc_R2(test_set_measured,test_set_predicted);
-        MSE_CD(sample,i) = calc_MSE(test_set_measured,test_set_predicted);
+        MSE_FAIP(sample,i) = calc_MSE(test_set_measured,test_set_predicted);
     end
     
     R2_FAIP_CNN_test(sample) = calc_R2(FAIP_meas(sFAIP_CNN{sample}.test_ind == 1),FAIP_pred_CNN(sFAIP_CNN{sample}.test_ind == 1));
     MSE_CNN(sample) = calc_MSE(FAIP_meas(sFAIP_CNN{sample}.test_ind == 1),FAIP_pred_CNN(sFAIP_CNN{sample}.test_ind == 1));
 end
+
+
+
+if (1)
+    clf
+    R2OOS = calc_R2OOS(median(MSE_FAIP,2),MSE_CNN');
+    
+    bar(1:16,[median(R2_FAIP_SA_test_bootstrap,2)';R2OOS'], 'BarWidth', 1.2); hold on
+    e = errorbar((1:16)-0.15,median(R2_FAIP_SA_test_bootstrap,2)',iqr(R2_FAIP_SA_test_bootstrap,2)/2);
+    
+    e.LineStyle = 'none';
+    e.LineWidth = 1.5;
+    e.Color = 'black';
+    
+    ylim([-1 1])
+    set(gca, 'XTick', [1:16])
+    set(gca, 'YTick', [-1 -0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6, 0.8, 1.0])
+    set(gca,'FontSize',20)
+    set(gca,'box','off')
+    ax = gca;
+    ax.XAxis.LineWidth = 2;
+    ax.YAxis.LineWidth = 2;
+    set(ax,'tickdir','out');
+    ax.XGrid = 'off';
+    ax.YGrid = 'on';
+    legend('R^2 SA','R^2_{OOS} SA vs CNN','FontSize',10,'Location','southwest')
+    
+    qSA = quantile(median(R2_FAIP_SA_test_bootstrap,2),3);
+    fprintf('R2 SA intra-tumor: %0.2f (%0.2f - %0.2f) (median (25th quartile - 75th quartile))\n',median(median(R2_FAIP_SA_test_bootstrap,2)),qSA(1),qSA(3))
+    
+
+end
+
 
 
 if (0) %R squared out-of-sample plot
@@ -50,7 +83,7 @@ end
 
 
 
-if (1) %What we had there previously
+if (0) %What we had there previously
     
     subplot(3,1,1)
     hold on;
