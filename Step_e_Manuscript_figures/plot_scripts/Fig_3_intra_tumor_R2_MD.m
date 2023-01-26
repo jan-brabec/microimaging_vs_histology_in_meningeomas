@@ -13,18 +13,15 @@ for sample = 1:16
     load(fullfile(ROI_path,f_name));
     
     tt = test_positions_map';
-%     tt(sROI{sample} == 0) = 0;
+    tt(sROI{sample} == 0) = 0;
     
     MSE_CNN      = calc_MSE(sMD_CNN{sample}.I_MD_measured(tt==1),sMD_CNN{sample}.I_MD_pred(tt==1));
     MSE_CNN_mean = calc_MSE(sMD_CNN{sample}.I_MD_measured(tt==1),mean(sMD_CNN{sample}.I_MD_measured(tt==1)));
     
     R2OS_CNN(sample) = calc_R2_from_MSE(MSE_CNN,MSE_CNN_mean);
     
-    R2OS_CNN(sample) = calc_R2(sMD_CNN{sample}.I_MD_measured(tt==1),sMD_CNN{sample}.I_MD_pred(tt==1));
+%     R2OS_CNN(sample) = calc_R2(sMD_CNN{sample}.I_MD_measured(tt==1),sMD_CNN{sample}.I_MD_pred(tt==1));
     
-    if sample == 5
-        1;
-    end
     
     % CD part
     CD = process_map(sCD{sample},sROI{sample},1,1);
