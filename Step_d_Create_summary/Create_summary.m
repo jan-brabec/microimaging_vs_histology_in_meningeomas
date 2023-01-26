@@ -39,28 +39,29 @@ for sample = 1:16
     
     %Save MR
     sMR{sample}  = MR;
+       
     
     %Save CNN MD
-    for part = 1:3
+    for part = 1:4
         f_name = strcat('MAT_dan_individual_MD_efficientnet_v2_1_s',num2str(sample),'_p',num2str(part),'.mat');
         addpath('../Step_c_Analyze_CNN');
         load(fullfile('..','Step_c_Analyze_CNN','output_mat',f_name));
     end
     
-    sMD_CNN{sample}.I_MD_pred = MAT_y_pred';
-    sMD_CNN{sample}.I_MD_measured = MAT_y_true';
+    sMD_CNN{sample}.I_pred = MAT_y_pred';
+    sMD_CNN{sample}.I_measured = MAT_y_true';   
     sMD_CNN{sample}.measured = measured;
     sMD_CNN{sample}.predicted = predicted;
-
-    %Equalize ROI of CNN and non-CNN (very few different voxels in few samples so to make sure we are comparing the same thing all the time)
-    sROI{sample} = equalize_CNN_non_CNN_ROI(sMD_CNN{sample}.I_MD_measured,sMR{sample}.MD,ROI_no_CNN);
-
-    test_ind = find_id_test_set(sMD_CNN{sample}.I_MD_measured,sMD_CNN{sample}.measured,sMD_CNN{sample}.I_MD_pred,sMD_CNN{sample}.predicted,sROI{sample});
-    test_ind = sROI{sample} .* test_ind; %some of the test inds were outside of ROI, take those only inside ROI
-    sMD_CNN{sample}.test_ind = test_ind;
+    
+    %Equalize ROI of CNN and non-CNN (few different voxels in few samples so to make sure we are comparing the same thing all the time between CNN and CD/SA models)
+    sROI{sample} = equalize_CNN_non_CNN_ROI(sMD_CNN{sample}.I_measured,sMR{sample}.MD,ROI_no_CNN);    
+    
+    tt = test_positions_map';
+    tt(sROI{sample} == 0) = 0; %Erase those indices outside of our ROI to make sure it is within tumor.
+    sMD_CNN{sample}.I_test_ind = tt;
     
     %Save CNN FAIP
-    for part = 1:3
+    for part = 1:4
         f_name = strcat('MAT_dan_individual_FA2D_efficientnet_v2_1_s',num2str(sample),'_p',num2str(part),'.mat');
         load(fullfile('..','Step_c_Analyze_CNN','output_mat',f_name));
     end
@@ -70,9 +71,10 @@ for sample = 1:16
     sFAIP_CNN{sample}.measured = measured;
     sFAIP_CNN{sample}.predicted = predicted;
     
-    test_ind = find_id_test_set(sFAIP_CNN{sample}.I_measured,sFAIP_CNN{sample}.measured,sFAIP_CNN{sample}.I_pred,sFAIP_CNN{sample}.predicted,sROI{sample});
-    test_ind = sROI{sample} .* test_ind; %some of the test inds were outside of ROI, take those only inside ROI
-    sFAIP_CNN{sample}.test_ind = test_ind;
+    tt = test_positions_map';
+    tt(sROI{sample} == 0) = 0; %Erase those indices outside of our ROI to make sure it is within tumor.
+    sFAIP_CNN{sample}.I_test_ind = tt;
+    
     
 end
 

@@ -15,10 +15,9 @@ for sample = 1:16
     FAIP_meas_per_sample(sample) = std(FAIP_meas(sROI{sample} > 0));
 
     
-    for i = 1:10
+    for i = 1:1000
         [FAIP_pred,test_set_measured,test_set_predicted,test_set_usedforpred] = ...
-            predict_map(SA,FAIP_meas,sROI{sample},sample,1101);
-        FAIP_pred = process_map(FAIP_pred,sROI{sample},lims_dir_FAIP,0);
+            predict_map(SA,FAIP_meas,sROI{sample},1101);
         
         R2_FAIP_SA_test_bootstrap(sample,i) = calc_R2(test_set_measured,test_set_predicted);
     end
