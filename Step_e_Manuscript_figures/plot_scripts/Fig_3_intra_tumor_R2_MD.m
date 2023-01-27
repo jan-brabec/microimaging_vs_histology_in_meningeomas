@@ -8,7 +8,7 @@ for sample = 1:16
     
     %CNN part
     part = 4;
-    ROI_path = fullfile('..','..','Step_c_Analyze_CNN','output_mat_new');
+    ROI_path = fullfile('..','..','Step_c_Analyze_CNN','output_mat');
     f_name = strcat('MAT_dan_individual_MD_efficientnet_v2_1_s',num2str(sample),'_p',num2str(part),'.mat');
     load(fullfile(ROI_path,f_name));
     
@@ -26,7 +26,7 @@ for sample = 1:16
     % CD part
     CD = process_map(sCD{sample},sROI{sample},1,1);
     MD_meas = process_map(sMR{sample}.MD,sROI{sample},1.5,0);
-    for i = 1:10
+    for i = 1:1000
         [~,CD_test_set_measured,CD_test_set_predicted,~] =...
             predict_map(CD,MD_meas,sROI{sample},1101);
         

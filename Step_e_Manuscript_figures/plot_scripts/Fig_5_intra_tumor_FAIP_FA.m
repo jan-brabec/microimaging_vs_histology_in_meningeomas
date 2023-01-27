@@ -7,7 +7,7 @@ for sample = 1:16
     
     %CNN part
     part = 4;
-    ROI_path = fullfile('..','..','Step_c_Analyze_CNN','output_mat_new');
+    ROI_path = fullfile('..','..','Step_c_Analyze_CNN','output_mat');
     f_name = strcat('MAT_dan_individual_FA2D_efficientnet_v2_2_s',num2str(sample),'_p',num2str(part),'.mat');
     load(fullfile(ROI_path,f_name));
     
@@ -28,7 +28,7 @@ for sample = 1:16
     %Switch to sMR{sample}.FA instead of sMR{sample}.FAIP to see results
     %for FA instead.
     
-    for i = 1:10
+    for i = 1:1000
         [~,FAIP_test_set_measured,FAIP_test_set_predicted,~] = ...
             predict_map(SA,FAIP_meas,sROI{sample},1101);
         
