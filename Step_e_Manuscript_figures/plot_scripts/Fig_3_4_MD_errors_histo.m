@@ -4,8 +4,8 @@ clear; clc;
 load(fullfile('..','HE_screenshots_MD_2.mat'),'sc') %Figure 4
 % load(fullfile('..','HE_screenshots_MD_1.mat'),'sc') %Figure 3
 
+load(fullfile('..','summary.mat'),'sMR','sROI','sCD','sMD_CNN','sHd','sFAIP_CNN')
 
-load(fullfile('..','summary.mat'),'sMR','sROI','sCD','sMD_CNN')
 addpath('../M_functions')
 
 pnt_col = [157, 195, 230;...
@@ -38,8 +38,13 @@ clf;
 ha = tight_subplot(size(indx,1),8,[.01,.01],[.01,.01],[.01,.01]);
 axs = 1;
 
+
+
+
+
 for c_exp = 1:size(indx,1)
     sample = sc{indx(c_exp,1)}.sample;
+    
     
     disp(sample)
     disp(sc{indx(c_exp,1)}.descrip)
@@ -56,12 +61,12 @@ for c_exp = 1:size(indx,1)
     
     MD = process_map(sMR{sample}.MD,sROI{sample},MD_lims,0);
     CD = process_map(sCD{sample},sROI{sample},CD_lims,1);
-    MD_pred = predict_map(CD,MD,sROI{sample},sample,11);
+    MD_pred = predict_map(CD,MD,sROI{sample},11);
     MD_pred = process_map(MD_pred,sROI{sample},MD_lims,0);
     [dif_CD, c_map_CD]   = make_dif_map(MD,MD_pred, sROI{sample},dif_lims);
     
     
-    MD_pred_CNN = process_map(sMD_CNN{sample}.I_MD_pred,sROI{sample},MD_lims,0);
+    MD_pred_CNN = process_map(sMD_CNN{sample}.I_pred,sROI{sample},MD_lims,0);
     [dif_MD_CNN, c_map_CNN]   = make_dif_map(MD,MD_pred_CNN,sROI{sample},dif_lims);
     
     
@@ -193,4 +198,4 @@ for c_exp = 1:size(indx,1)
     axs = axs + 8;
 end
 
-%  print(sprintf('MD_errors.png'),'-dpng','-r500')
+ print(sprintf('MD_errors.png'),'-dpng','-r500')

@@ -1,27 +1,15 @@
 clear; clc; load(fullfile('..','summary.mat'))
 addpath('../M_functions')
 
-
 for sample = 1:16
     
     disp(sample)
     
     %CNN part
-    part = 4;
-    ROI_path = fullfile('..','..','Step_c_Analyze_CNN','output_mat');
-    f_name = strcat('MAT_dan_individual_MD_efficientnet_v2_1_s',num2str(sample),'_p',num2str(part),'.mat');
-    load(fullfile(ROI_path,f_name));
-    
-    tt = test_positions_map';
-    tt(sROI{sample} == 0) = 0;
-    
-    MSE_CNN      = calc_MSE(sMD_CNN{sample}.I_MD_measured(tt==1),sMD_CNN{sample}.I_MD_pred(tt==1));
-    MSE_CNN_mean = calc_MSE(sMD_CNN{sample}.I_MD_measured(tt==1),mean(sMD_CNN{sample}.I_MD_measured(tt==1)));
+    MSE_CNN      = calc_MSE(sMD_CNN{sample}.I_measured(sMD_CNN{sample}.I_test_ind==1),sMD_CNN{sample}.I_pred(sMD_CNN{sample}.I_test_ind==1));
+    MSE_CNN_mean = calc_MSE(sMD_CNN{sample}.I_measured(sMD_CNN{sample}.I_test_ind==1),mean(sMD_CNN{sample}.I_measured(sMD_CNN{sample}.I_test_ind==1)));
     
     R2OS_CNN(sample) = calc_R2_from_MSE(MSE_CNN,MSE_CNN_mean);
-    
-%     R2OS_CNN(sample) = calc_R2(sMD_CNN{sample}.I_MD_measured(tt==1),sMD_CNN{sample}.I_MD_pred(tt==1));
-    
     
     % CD part
     CD = process_map(sCD{sample},sROI{sample},1,1);
@@ -39,35 +27,13 @@ for sample = 1:16
     
 end
 
+R2OS_CNN(isnan(R2OS_CNN)) = 0;
+R2OS_CNN(R2OS_CNN < 0) = 0;
 
-if (0) %Relative out-of-sample R squared plot
+if (1) %out-of-sample R squared plots, R2OS
     
+    figure(123)
     clf
-    bar(1:16,median(RR2OS_CD_CNN,2), 'BarWidth', 0.8); hold on
-    e = errorbar((1:16),median(RR2OS_CD_CNN,2)',iqr(RR2OS_CD_CNN,2)/2);
-    
-    e.LineStyle = 'none';
-    e.LineWidth = 1.5;
-    e.Color = 'black';
-    
-    ylim([-1 1])
-    set(gca, 'XTick', [1:16])
-    set(gca, 'YTick', [-1, -0.8, -0.6, -0.4, -0.2, 0,0.2,0.4,0.6,0.8,1.0])
-    set(gca,'FontSize',20)
-    set(gca,'box','off')
-    ax = gca;
-    ax.XAxis.LineWidth = 2;
-    ax.YAxis.LineWidth = 2;
-    set(ax,'tickdir','out');
-    ax.XGrid = 'off';
-    ax.YGrid = 'on';
-    legend('RR^2_{OS}','FontSize',10,'Location','southwest')
-end
-
-if (1) %out-of-sample R squared plots
-    clf
-    
-    R2OS_CNN(isnan(R2OS_CNN)) = 0;
     
     bar(1:16,[median(R2OS_CD,2)';R2OS_CNN], 'BarWidth', 1.2); hold on
     e = errorbar((1:16)-0.15,median(R2OS_CD,2)',iqr(R2OS_CD,2)/2);
@@ -96,5 +62,37 @@ if (1) %out-of-sample R squared plots
     fprintf('R2 CNN intra-tumor: %0.2f (%0.2f - %0.2f) (median (25th quartile - 75th quartile))\n',median(R2OS_CNN),qML(1),qML(3))
     
     print(sprintf('R2_MD_chart.png'),'-dpng','-r500')
+end
+
+if (1) %Relative out-of-sample R squared plot, RR2OS
+    figure(124)
+    clf
+    
+    bar(1:16,median(RR2OS_CD_CNN,2), 'BarWidth', 0.8); hold on
+    e = errorbar((1:16),median(RR2OS_CD_CNN,2)',iqr(RR2OS_CD_CNN,2)/2);
+    
+    e.LineStyle = 'none';
+    e.LineWidth = 1.5;
+    e.Color = 'black';
+    
+    ylim([-1 1])
+    set(gca, 'XTick', [1:16])
+    set(gca, 'YTick', [-1, -0.8, -0.6, -0.4, -0.2, 0,0.2,0.4,0.6,0.8,1.0])
+    set(gca,'FontSize',20)
+    set(gca,'box','off')
+    ax = gca;
+    ax.XAxis.LineWidth = 2;
+    ax.YAxis.LineWidth = 2;
+    set(ax,'tickdir','out');
+    ax.XGrid = 'off';
+    ax.YGrid = 'on';
+    legend('RR^2_{OS} MD','FontSize',10,'Location','southwest')
+    
+    qRR2OS = quantile(median(RR2OS_CD_CNN,2),3);
+    fprintf('RR2OS : %0.2f (%0.2f - %0.2f) (median (25th quartile - 75th quartile))\n',median(median(RR2OS_CD_CNN,2)),qRR2OS(1),qRR2OS(3))
+    
+    sum(median(RR2OS_CD_CNN,2) <= 0)
+    
+    print(sprintf('RR2OS_MD_chart.png'),'-dpng','-r500')
 end
 

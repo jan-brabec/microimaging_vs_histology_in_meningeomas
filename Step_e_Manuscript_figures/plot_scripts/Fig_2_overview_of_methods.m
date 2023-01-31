@@ -56,3 +56,5 @@ subplot(3,2,6)
 imagesc(SA_native)
 caxis([0 SA_lim])
 axis image off
+
+print(sprintf('Overview_methods.png'),'-dpng','-r500')

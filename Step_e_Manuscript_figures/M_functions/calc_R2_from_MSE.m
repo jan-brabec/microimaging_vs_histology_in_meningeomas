@@ -9,4 +9,13 @@ function R2 = calc_R2_from_MSE(SSE_method,SSE_benchmark)
 
 R2 = 1 - SSE_method./SSE_benchmark;
 
+R2 = round(R2,2);
+
 end
+
+
+% % Alternative definitions of R2 as proportion of variance explained
+% % use rather original definition of R2.
+% if (0) 
+%     R2 = 1 - var(x - x_pred) / var(x);
+% end

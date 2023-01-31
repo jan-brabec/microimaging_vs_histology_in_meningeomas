@@ -3,6 +3,10 @@ function X = process_map(X,ROI,lims,smooth)
 %
 % Processes map in a standard way.
 
+if isempty(ROI)
+    ROI = ones(size(X));
+end
+
 if smooth == 1
     
     X(isnan(X)) = 0;
@@ -11,7 +15,6 @@ if smooth == 1
     filter_sigma = 0.5;
     X = smooth_map(X,filter_sigma);
 end
-
 
 %to show in the image, outside of ROI not considered anyway for
 %prediction or R2 calculations

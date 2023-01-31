@@ -2,7 +2,7 @@ clear; clf;
 load(fullfile('..','summary.mat'))
 addpath(genpath('../M_functions'))
 
-sample = 5;
+sample = 3;
 
 disp(sample)
 
@@ -16,11 +16,10 @@ elseif sample == 5
 end
 
 
-
 CD = process_map(sCD{sample},sROI{sample},CD_lims,1);
 MD = process_map(sMR{sample}.MD,sROI{sample},MD_lims,0);
 
-MD_pred = predict_map(CD,MD,sROI{sample},sample,11);
+MD_pred = predict_map(CD,MD,sROI{sample},11);
 MD_pred = process_map(MD_pred,sROI{sample},MD_lims,0);
 
 
@@ -79,5 +78,3 @@ set(ax,'tickdir','out');
 
 set(gcf,'color','w');
 drawnow;
-
-R2 = calc_R2(MD,MD_pred,sROI{sample})

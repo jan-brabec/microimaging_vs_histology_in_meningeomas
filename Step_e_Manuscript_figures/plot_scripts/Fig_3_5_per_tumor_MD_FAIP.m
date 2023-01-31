@@ -38,8 +38,7 @@ subplot(1,3,1)
 hold on
 scatter(CD_per_tu,MD_per_tu,400,'.')
 hold on
-R2_MD = calc_R2(CD_per_tu,MD_per_tu)
-% title(sprintf('R^2 = %1.1f',R2_MD));
+R2_MD = calc_R2_from_corr_coeff(CD_per_tu,MD_per_tu)
 
 coeffs = polyfit(CD_per_tu, MD_per_tu, 1);
 fittedX = linspace(0, 1, 200);
@@ -53,8 +52,6 @@ ax.XAxis.LineWidth = 2;
 ax.YAxis.LineWidth = 2;
 set(ax,'tickdir','out');
 
-% xlabel('CD')
-% ylabel('MD')
 xlim([0 1])
 ylim([0 1])
 xticks([0 0.5 1])
@@ -63,16 +60,13 @@ yticks([0 0.5 1])
 subplot(1,3,2)
 scatter(SA_per_tu,FAIP_per_tu,400,'.')
 hold on
-R2_FAIP = calc_R2(SA_per_tu,FAIP_per_tu)
-% title(sprintf('R^2 = %1.1f',R2_FA2D));
+R2_FAIP = calc_R2_from_corr_coeff(SA_per_tu,FAIP_per_tu)
 
 coeffs = polyfit(SA_per_tu, FAIP_per_tu, 1);
 fittedX = linspace(0, 1, 200);
 fittedY = polyval(coeffs, fittedX);
 plot(fittedX, fittedY, 'r-', 'LineWidth', 3);
 
-% xlabel('SA')
-% ylabel('FA_{IP}')
 set(gca,'FontSize',20)
 set(gca,'box','off')
 ax = gca;
@@ -88,16 +82,14 @@ yticks([0 0.3 0.6])
 subplot(1,3,3)
 scatter(SA_per_tu,FA_per_tu,400,'.')
 hold on
-R2_FA = calc_R2(SA_per_tu,FA_per_tu)
-% title(sprintf('R^2 = %1.1f',R2_FA2D));
+R2_FA = calc_R2_from_corr_coeff(SA_per_tu,FA_per_tu)
 
 coeffs = polyfit(SA_per_tu, FA_per_tu, 1);
 fittedX = linspace(0, 1, 200);
 fittedY = polyval(coeffs, fittedX);
 plot(fittedX, fittedY, 'r-', 'LineWidth', 3);
 
-% xlabel('SA')
-% ylabel('FA')
+
 set(gca,'FontSize',20)
 set(gca,'box','off')
 ax = gca;
