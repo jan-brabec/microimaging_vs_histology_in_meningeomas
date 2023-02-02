@@ -2,10 +2,11 @@
 import os
 import numpy as np
 import pandas as pd
+import h5py
 from sklearn.model_selection import train_test_split
 
 ################################################################
-def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_size = 0, random_state = 42, get_datasets = True, batch_size = 32, get_indices = False, get_full_data = False, get_FAIP = False):
+def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_size = 0, random_state = 42, gdrive_path = "../..", get_datasets = True, batch_size = 32, get_indices = False, get_full_data = False, get_FAIP = False):
   """
   Loads the data and splits them to train, test and validation parts
 
@@ -30,11 +31,33 @@ def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_si
   full_data = None
   # iterate through samples
   for sample in samples_to_train:
-    tdx = np.load(f"../../data/{sample}/CNN/ver1/resized_xdata.npy")
+    tdx = np.load(f"{gdrive_path}/data/{sample}/CNN/ver1/resized_xdata.npy")
     if get_FAIP:
-      tdy = np.load(f"../../data/{sample}/CNN/ver1/resized_ydataFAIP.npy")
+      tdy = np.load(f"{gdrive_path}/data/{sample}/CNN/ver1/resized_ydataFAIP.npy")
     else:
-      tdy = np.load(f"../../data/{sample}/CNN/ver1/resized_ydataMD.npy")
+      tdy = np.load(f"{gdrive_path}/data/{sample}/CNN/ver1/resized_ydataMD.npy")
+    # narrow ROI
+    print(tdx.shape, tdy.shape)
+    fMR = h5py.File(f"{gdrive_path}/data/{sample}/MR.mat", 'r')
+    MR_roi = np.array(fMR['MR']['ROI'])
+    k = 5
+    NEWROI = MR_roi
+    tempROI = np.zeros(MR_roi.shape, np.int32)
+    tempROI[k:,:] = MR_roi[:-k,:]
+    NEWROI = np.multiply(NEWROI,tempROI)
+    tempROI = np.zeros(MR_roi.shape, np.int32)
+    tempROI[:-k,:] = MR_roi[k:,:]
+    NEWROI = np.multiply(NEWROI,tempROI)
+    tempROI = np.zeros(MR_roi.shape, np.int32)
+    tempROI[:,k:] = MR_roi[:,:-k]
+    NEWROI = np.multiply(NEWROI,tempROI)
+    tempROI = np.zeros(MR_roi.shape, np.int32)
+    tempROI[:,:-k] = MR_roi[:,k:]
+    NEWROI = np.multiply(NEWROI,tempROI)
+    indd = NEWROI[tdy[:,1].astype(int), tdy[:,2].astype(int)].astype(int)
+    tdx = tdx[indd > 0,:,:,:]
+    tdy = tdy[indd > 0, :]
+    print(tdx.shape, tdy.shape)
     # split dataset
     ttrainx, ttraincx, ttrainy, ttraincy, ttrainind, ttraincind = train_test_split(tdx, tdy[:,0], np.arange(tdx.shape[0]).reshape(-1,1), train_size = train_size, test_size = train_complement_size, random_state = random_state, shuffle = True)
     if test_size > 0:
