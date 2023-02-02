@@ -16,7 +16,7 @@ from utils import *
 
 #-----------------------------------------------------------
 # model name based on script name
-model_name = os.path.basename(__file__)[0:-3]
+model_name = 'MD_efficientnet'
 learning_rate = 0.001
 weight_decay = 0.0001
 TRAIN_EPOCHS = 15

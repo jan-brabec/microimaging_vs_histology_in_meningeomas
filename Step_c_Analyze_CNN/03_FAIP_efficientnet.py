@@ -16,7 +16,7 @@ from utils import *
 
 #-----------------------------------------------------------
 # model name based on script name
-model_name = os.path.basename(__file__)[0:-3]
+model_name = 'FAIP_efficientnet'
 learning_rate = 0.001
 weight_decay = 0.0001
 TRAIN_EPOCHS = 15
@@ -67,7 +67,7 @@ for sample in samples:
   loss = 'mean_squared_error',
   metrics = [tfa.metrics.RSquare(dtype=tf.float32)])
   #metrics = [tfa.metrics.r_square.RSquare(y_shape=(1,))])
-  
+
 
   model.compile(optimizer=optimizer,
   loss = 'mean_squared_error',

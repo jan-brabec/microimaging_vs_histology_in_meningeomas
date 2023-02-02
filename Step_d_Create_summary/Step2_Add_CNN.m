@@ -9,7 +9,7 @@ for sample = 1:16
     
     %Save CNN MD
     for part = 1:4
-        f_name = strcat('MAT_dan_individual_MD_efficientnet_v2_1_s',num2str(sample),'_p',num2str(part),'.mat');
+        f_name = strcat('MAT_MD_efficientnet_s',num2str(sample),'_p',num2str(part),'.mat');
         addpath('../Step_c_Analyze_CNN');
         load(fullfile('..','Step_c_Analyze_CNN','output_mat',f_name));
     end
@@ -24,7 +24,7 @@ for sample = 1:16
     
     %Save CNN FAIP
     for part = 1:4
-        f_name = strcat('MAT_dan_individual_FA2D_efficientnet_v2_2_s',num2str(sample),'_p',num2str(part),'.mat');
+        f_name = strcat('MAT_FAIP_efficientnet_s',num2str(sample),'_p',num2str(part),'.mat');
         load(fullfile('..','Step_c_Analyze_CNN','output_mat',f_name));
     end
     

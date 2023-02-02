@@ -38,7 +38,7 @@ def load_data(samples_to_train, train_size = 0.5, validation_size = 0.2, test_si
       tdy = np.load(f"{gdrive_path}/data/{sample}/CNN/ver1/resized_ydataMD.npy")
     # narrow ROI
     print(tdx.shape, tdy.shape)
-    fMR = h5py.File(f"{gdrive_path}/data/{sample}/MR.mat", 'r')
+    fMR = h5py.File(f"{gdrive_path}/data/{sample}/coreg_fine/ver1/MR.mat", 'r')
     MR_roi = np.array(fMR['MR']['ROI'])
     k = 5
     NEWROI = MR_roi
