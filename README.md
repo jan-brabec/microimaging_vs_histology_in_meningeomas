@@ -1,7 +1,7 @@
 # Manuscript: Mean diffusivity and fractional anisotropy at the mesoscopic level in meningioma tumors: Relation with cell density and tissue anisotropy
 * Code and data to the manuscript: **Brabec, J., Friedjungova, M., Vasata, D., Englund, E., Bengzon, J., Knutsson, L., Szczepankiewicz F., van Westen, D., Sundgren, P.C. and Nilsson, M., 2022. Mean diffusivity and fractional anisotropy at the mesoscopic level in meningioma tumors: Relation with cell density and tissue anisotropy. Unpublished.**
 
-* Contact: *jbrabec [at] jh [dot] edu*
+* Contact: *jbrabec2 [at] jh [dot] edu*
 
 * **NOTE: There will be also submission of the coregistered data themselves to data in brief without the analysis performed in this article. The data are not submitted yet to data in brief nor uploaded on an external repository so it is not yet possible to download the data and recreate them.**
 
