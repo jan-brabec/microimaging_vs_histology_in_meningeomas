@@ -11,11 +11,12 @@ for id = 1:numel(idx)
     
     disp(sample)
     
+    
         
     lims_scatter  = 1;
     dif_lims = 0.5;
     [lims_dir_FAIP, lims_dir_IA] = get_dir_lims(sample,0.6);
-    
+        
     SA   = process_map(sHd{sample}.dSA,sROI{sample},lims_dir_IA,1);
     FAIP_meas = process_map(sMR{sample}.FAIP,sROI{sample},lims_dir_FAIP,0);    
     

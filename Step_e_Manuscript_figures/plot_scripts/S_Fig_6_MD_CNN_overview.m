@@ -5,6 +5,8 @@ clear; clf;
 %no correlation but systematic problems % 9 10 5 6
 %coregistration errors % 4 13 14 16
 
+addpath(fullfile('..','M_functions'));
+
 idx = 1:16;
 
 ha = tight_subplot(numel(idx),5,[.01,.01],[.01,.01],[.01,.01]);

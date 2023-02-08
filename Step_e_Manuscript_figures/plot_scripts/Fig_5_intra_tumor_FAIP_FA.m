@@ -31,8 +31,7 @@ for sample = 1:16
     
 end
 
-R2OS_CNN(R2OS_CNN<0) = 0;
-R2OS_CNN(isnan(R2OS_CNN)) = 0;
+fprintf('Number of NaNs? %0.0f\n',sum(isnan(R2OS_CNN)));
 
 
 if (1) %What we had there previously

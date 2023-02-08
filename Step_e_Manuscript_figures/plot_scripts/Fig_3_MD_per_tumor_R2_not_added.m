@@ -8,7 +8,6 @@ for sample = 1:16
     disp(sample)
     
 
-  
     CD = process_map(sCD{sample},sROI{sample},1,1);
     MD_meas = process_map(sMR{sample}.MD,sROI{sample},1.5,0);    
  
