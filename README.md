@@ -18,7 +18,7 @@
 8. Run script Create_summary in the folder Step_d_Create_summary. This will merge the results from all samples into a single file "summary.mat" in the data folder.
 7. Plot manuscript figures by scripts in the folder Step_e_Manuscript_figures/plot_scripts.
 
-## Opening a QuPath project
+# Opening a QuPath project
 QuPath is an open software for Bioimage analysis that was used to generate cell density maps from the related research article. However, it can also be used to view the H&E-stained histology sections. If you want to open any of the images follow following instructions:
 
 * Download and install latest Qupath from: https://qupath.github.io (version that was used to run cell detection algorhitm was version 0.23)
