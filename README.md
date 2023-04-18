@@ -22,7 +22,11 @@
 QuPath is an open software for Bioimage analysis that was used to generate cell density maps from the related research article. However, it can also be used to view the H&E-stained histology sections. If you want to open any of the images follow following instructions:
 
 * Download and install latest Qupath from: https://qupath.github.io (version that was used to run cell detection algorhitm was version 0.23)
-* d
+* Click on File -> Open.
+* Open project file of the specific sample (e.g. for sample 1 /data/2/cell_density/QuPath/project.qpproj).
+* You will be asked to locate the HE.jpg file. This is because when the project was created it was linked with an absolute but not relative path. The image is located in the same folder as the project file is, e.g.(e.g. for sample 1 /data/2/cell_density/QuPath/HE.jpg). This will load both the image as well as the cell nuclei detected.
+* Note that the loading of the images may take time and requires a large amount of RAM because the images are large.
+* You may also like to see the scale bar in real units (micrometers instead of pixels): if so, please modify in the Image tab (this is located between Project and Annotation tabs) fields: Pixel width and Pixel height. These can be set to the resolution 0.5 micrometers and 0.5 micrometers because at this resolution the histology slides were digitalized.
 
 
 # Others
